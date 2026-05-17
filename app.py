@@ -8,7 +8,7 @@ import base64
 st.set_page_config(page_title="Quran Mood Agent", page_icon="🤎")
 
 # =======================
-# Background Image (Base64 FIX)
+# Background Image (UNCHANGED)
 # =======================
 def get_base64(file_path):
     with open(file_path, "rb") as f:
@@ -29,18 +29,85 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # =======================
-# Style (RTL)
+# UI FIXES
 # =======================
 st.markdown("""
 <style>
+
+/* النصوص */
 html, body, [class*="css"] {
     direction: rtl;
     text-align: right;
     font-size: 22px;
+    color: #000000 !important;
 }
+
+/* العنوان */
+h1, h2, h3 {
+    color: #000000 !important;
+}
+
+/* =======================
+   HEADER FIX (IMPORTANT)
+======================= */
+
+/* خلفية الهيدر */
+header {
+    background-color: #ffffff !important;
+}
+
+/* النص داخل الهيدر */
+header * {
+    color: #000000 !important;
+}
+
+/* الأيقونات */
+header svg {
+    fill: #000000 !important;
+}
+
+/* الأزرار */
+.stButton > button {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 10px;
+}
+
+.stButton > button:hover {
+    background-color: #f2f2f2 !important;
+    color: #000000 !important;
+}
+
+/* selectbox */
+.stSelectbox > div > div {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+}
+
+.stSelectbox label {
+    color: #000000 !important;
+}
+
+/* الكارد */
+.card {
+    background: rgba(255,255,255,0.92);
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 10px;
+    text-align: right;
+    direction: rtl;
+    line-height: 1.8;
+    color: #000000;
+    border: 1px solid #eee;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
+# =======================
+# Title
+# =======================
 st.title("🤎 Quran Mood Agent")
 
 # =======================
@@ -55,7 +122,7 @@ moods_list = [
 selected_mood = st.selectbox("📋 اختر شعورك:", moods_list)
 
 # =======================
-# Get Quran text API
+# Quran API
 # =======================
 def get_ayah_text(surah, ayah):
     url = f"https://api.alquran.cloud/v1/ayah/{surah}:{ayah}/ar"
@@ -63,32 +130,24 @@ def get_ayah_text(surah, ayah):
     return res["data"]["text"]
 
 # =======================
-# Audio function
+# Audio
 # =======================
 def play_audio(surah, ayah):
     url = f"https://everyayah.com/data/Abdul_Basit_Mujawwad_128kbps/{surah:03d}{ayah:03d}.mp3"
     st.audio(url)
 
 # =======================
-# UI Card
+# Card UI
 # =======================
 def show_card(text):
     st.markdown(f"""
-    <div style="
-        background: rgba(255,255,255,0.92);
-        padding: 15px;
-        border-radius: 15px;
-        margin-bottom: 10px;
-        text-align: right;
-        direction: rtl;
-        line-height: 1.8;
-    ">
+    <div class="card">
         {text}
     </div>
     """, unsafe_allow_html=True)
 
 # =======================
-# Mood Mapping
+# Mapping
 # =======================
 mapping = {
     "حزن": [(2,153), (94,5)],
